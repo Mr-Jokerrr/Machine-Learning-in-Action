@@ -7,10 +7,10 @@ the codes are based on python3.5
 
 Chapter8 and chapter 9 are mainly talking about supervised learning. 
 
-- Chapter8 is about linear regression
+- Chapter8 is about linear regression.
 
-  [**chapter8**](8).
+  [**chapter8**](8)
 
-- Chapter9 is about regression tree
+- Chapter9 is about regression tree.
 
-  [**chapter9**](9).
+  [**chapter9**](9)
