@@ -97,3 +97,70 @@ def prune(tree, testData):	#	use training tree data to split test data
 	else:
 		return tree
 		
+#	model trees
+def linearSolve(dataSet):
+	m, n = shape(dataSet)
+	X = mat(ones((m,n)))
+	Y = mat(ones((m,1)))
+	X[:,1:n] = dataSet[:, 0:n-1]	#	notice that X[:, 0]=1, which is the coefficient of the constant term
+	Y = dataSet[:, -1]
+	xTx = X.T*X
+	if linalg.det(xTx) == 0.0:
+		raise NameError('This matrixd is singular, cannot do inverse, try increasing the second  value of ops')
+	ws = xTx.I * (X.T * Y)	#	ws = (x^T x)^-1 x^T y the weight matrix
+	return ws, X, Y
+
+def modelLeaf(dataSet):
+	ws, X, Y = linearSolve(dataSet)
+	return ws
+
+def modelErr(dataSet):
+	ws, X, Y = linearSolve(dataSet)
+	yHat = X * ws
+	return sum(power(Y-yHat, 2))
+	
+#	forecast with tree-based regression
+def regTreeEval(model, inData):	#	model is the value of 
+	model = float(model)
+	return model
+
+def modelTreeEval(model, inData):	#	here model and inData are two matrices
+	m, n = shape(inData)
+	X = mat(ones((1,n+1)))
+	X[:, 1:n+1] = inData
+	return float(X*model)
+
+def treeForeCast(tree, inData, modelEval=regTreeEval):
+	if not isTree(tree):
+		return modelEval(tree, inData)
+	if inData[tree['spInd']] > tree['spVal']:	#	use recursion to find the best leafNode
+		if isTree(tree['left']):
+			return treeForeCast(tree['left'], inData, modelEval)
+		else:
+			return modelEval(tree['left'], inData)
+	else:
+		if isTree(tree['right']):
+			return treeForeCast(tree['right'], inData, modelEval)
+		else:
+			return modelEval(tree['right'], inData)
+
+def createForeCast(tree, testData, modelEval=regTreeEval):	#	create a tree, use training tree to predict each of test data and get yHat
+	m = len(testData)
+	yHat = mat(zeros((m,1)))
+	for i in range(m):
+		yHat[i,0] = treeForeCast(tree, mat(testData[i]), modelEval)	#	calculate each y
+	return yHat
+
+
+
+
+
+
+
+
+
+
+
+
+
+
