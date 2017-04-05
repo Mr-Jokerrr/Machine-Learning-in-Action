@@ -13,4 +13,4 @@ Chapter8 and chapter 9 are mainly talking about supervised learning.
 
 - Chapter9 is about regression tree.
 
-  [**chapter9**](9/9.md))
+  [**chapter9**](9/9.md)
