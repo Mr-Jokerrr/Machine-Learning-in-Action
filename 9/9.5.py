@@ -33,14 +33,16 @@ def Partition(arr1, arr2, arr3,low,high):
 trainMat = mat(regTrees.loadDataSet('bikeSpeedVsIq_train.txt'))
 testMat = mat(regTrees.loadDataSet('bikeSpeedVsIq_test.txt'))
 
-myTree1 = regTrees.createTree(trainMat, ops=(1,20))
+myTree1 = regTrees.createTree(trainMat, ops=(1,10))
 yHat1 = regTrees.createForeCast(myTree1, testMat[:,0])
 r1 = corrcoef(yHat1, testMat[:,1], rowvar=0)[0,1]
+#print(myTree1)
 #print (r1)
 
-myTree2 = regTrees.createTree(trainMat, regTrees.modelLeaf, regTrees.modelErr, ops=(1,20))
+myTree2 = regTrees.createTree(trainMat, regTrees.modelLeaf, regTrees.modelErr, ops=(1,17))
 yHat2 = regTrees.createForeCast(myTree2, testMat[:,0], regTrees.modelTreeEval)
 r2 = corrcoef(yHat2, testMat[:,1], rowvar=0)[0,1]
+#print(myTree2)
 #print(r2)
 
 fig = plt.figure()
